@@ -17,6 +17,7 @@ class System {
     if(newVol === Infinity) return this;
     const newPressure = this.pressure*(this.vol**k)/(newVol**k);
     this.vol = newVol;
+    // @ts-ignore
     const oldT = this.temp;
     this.temp = newPressure * newVol / this.mols / R || 0;
     return this;
@@ -102,8 +103,11 @@ const chartConfig = label => {
 }
 
 const charts = {
+  // @ts-ignore
   mols: new Chart(document.getElementById('mols-chart').getContext('2d'), chartConfig('Mols')),
+  // @ts-ignore
   pressure: new Chart(document.getElementById('pressure-chart').getContext('2d'), chartConfig('Pressure')),
+  // @ts-ignore
   temperature: new Chart(document.getElementById('temp-chart').getContext('2d'), chartConfig('Temperature'))
 }
 
@@ -116,8 +120,11 @@ const outElMols = document.getElementById('out-mols');
 const outElTemp = document.getElementById('out-temp');
 
 function runExperiment() {
+  // @ts-ignore
   const inSys = new System(inElVol.valueAsNumber, inElMols.valueAsNumber, inElTemp.valueAsNumber);
+  // @ts-ignore
   const outSys = new System(outElVol.valueAsNumber, outElMols.valueAsNumber, outElTemp.valueAsNumber);
+  // @ts-ignore
   const cylSys = new Compressor(compElVol.valueAsNumber);
 
   const labels = Array(cyclesToRun + 1);
@@ -175,20 +182,10 @@ function runExperiment() {
   for(let cycle = 1; cycle <= cyclesToRun; cycle++) {
     inSys.passiveMix(cylSys);
     cylSys.poweredInjectTo(outSys, maxJoulesPerCycle);
-    //if(cylSys.mols > 0) console.log(cycle);
     data.record();
   }
   //All data is recorded, just need to push into chart
-  /*
-  const datasets = data.sets();
-  for(let i = 0; i < datasets.length; i++) {
-    const hue = i * 50;
-    datasets[i].backgroundColor = `hsl(${hue}, 50%, 50%)`;
-    datasets[i].borderColor = `hsl(${hue}, 80%, 50%)`;
-  }
-  */
   for(const key of Object.keys(charts)){
-    console.dir(charts[key])
     charts[key].data = {
       labels: labels,
       datasets: data[key].set()
