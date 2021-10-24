@@ -33,7 +33,7 @@ body {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
-#chart {
+canvas {
   background: white;
   margin-top: 1em;
 }

@@ -16,32 +16,28 @@
     <div class='cfg' id='in-sys-cfg'>
       <h3>Input System</h3>
       <label for="in-vol">Volume</label>
-      <input id='in-vol' type="number" value='100'>
+      <input id='in-vol' type="number" onblur='runExperiment()' value='100'>
       <label for="in-mols">Mols</label>
-      <input id='in-mols' type="number" value='100'>
+      <input id='in-mols' type="number" onblur='runExperiment()' value='100'>
       <label for='in-temp'>Temp</label>
-      <input id='in-temp' type='number' value='300'>
+      <input id='in-temp' type='number' onblur='runExperiment()' value='300'>
     </div>
     <div class='cfg' id="comp-cfg">
       <h3>Compressor</h3>
       <label for="cyl-vol">Volume</label>
-      <input id='cyl-vol' type="number" value='2'>
+      <input id='cyl-vol' type="number" onblur='runExperiment()' value='2'>
     </div>
     <div class='cfg' id='out-sys-cfg'>
       <h3>Output System</h3>
       <label for="out-vol">Volume</label>
-      <input id='out-vol' type="number" value='100'>
+      <input id='out-vol' type="number" onblur='runExperiment()' value='100'>
       <label for="out-mols">Mols</label>
-      <input id='out-mols' type="number" value='100'>
+      <input id='out-mols' type="number" onblur='runExperiment()' value='100'>
       <label for='out-temp'>Temp</label>
-      <input id='out-temp' type='number' value='300'>
+      <input id='out-temp' type='number' onblur='runExperiment()' value='300'>
     </div>
   </div>
   <div id="chart-container">
-    <div id="title-button">
-      <h1>Values over Time</h1>
-      <button onclick='runExperiment()'>RUN THE EXPERIMENT</button>
-    </div>
     <canvas id="mols-chart"></canvas>
     <canvas id="pressure-chart"></canvas> 
     <canvas id="temp-chart"></canvas>

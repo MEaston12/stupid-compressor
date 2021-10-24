@@ -82,18 +82,30 @@ class Compressor extends System {
   }
 }
 
-let chartConfig = {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: []
-  },
-  options:{
-  },
-  plugins: []
-};
-const ctx = document.getElementById('chart').getContext('2d');
-let chart = new Chart(ctx, chartConfig);
+const chartConfig = label => {
+  return {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: []
+    },
+    options:{
+      plugins: {
+        title: {
+          display: true,
+          text: label + ' over Time'
+        }
+      }
+    },
+    plugins: []
+  }
+}
+
+const charts = {
+  mols: new Chart(document.getElementById('mols-chart').getContext('2d'), chartConfig('Mols')),
+  pressure: new Chart(document.getElementById('pressure-chart').getContext('2d'), chartConfig('Pressure')),
+  temperature: new Chart(document.getElementById('temp-chart').getContext('2d'), chartConfig('Temperature'))
+}
 
 const inElVol = document.getElementById('in-vol');
 const inElMols = document.getElementById('in-mols');
@@ -112,63 +124,80 @@ function runExperiment() {
   for(let i = 0; i < labels.length; i++) {
     labels[i] = i;
   }
-  const data = {
-    InPress: [],
-    InMols: [],
-    InTemp: [],
-    OutPress: [],
-    OutMols: [],
-    //OutTemp: [],
-    record(){
-      this.InPress.push(inSys.pressure/20);
-      this.InMols.push(inSys.mols);
-      this.InTemp.push(inSys.temp);
-      this.OutPress.push(outSys.pressure/20);
-      this.OutMols.push(outSys.mols);
-      //this.OutTemp.push(outSys.temp);
-    },
-    sets() {
+  class DataItem {
+    constructor(label){
+      this.label = label;
+      this.in = [];
+      this.out = [];
+    }
+    set() {
       const datasets = [];
-      for(let key in data) {
-        if(!Array.isArray(data[key])) continue;
-        datasets.push({
-          label: key,
-          data: data[key],
-          backgroundColor: '#000',
-          borderColor: '#000'
-        });
+      const hue = 0;
+      switch(this.label) {
+        case 'Mols':
+        case 'Temperature':
+        case 'Pressure':
       }
+      datasets.push({
+        label: this.label + " In",
+        data: this.in,
+        backgroundColor: `hsl(0, 50%, 50%)`,
+        borderColor: `hsl(0, 80%, 50%)`
+      });
+      datasets.push({
+        label: this.label + " Out",
+        data: this.out,
+        backgroundColor: `hsl(180, 50%, 50%)`,
+        borderColor: `hsl(180, 80%, 50%)`
+      });
       return datasets;
     }
   }
-  
+  const data = {
+    pressure: new DataItem("Pressure"),
+    mols: new DataItem('Mols'),
+    temperature: new DataItem('Temperature'),
+    record(){
+      this.pressure.in.push(inSys.pressure);
+      this.pressure.out.push(outSys.pressure);
+      this.mols.in.push(inSys.mols);
+      this.mols.out.push(outSys.mols);
+      this.temperature.in.push(inSys.temp);
+      this.temperature.out.push(outSys.temp);
+    }
+  }
   for(let cycle = 1; cycle <= cyclesToRun; cycle++) {
     inSys.passiveMix(cylSys);
     cylSys.poweredInjectTo(outSys, maxJoulesPerCycle);
-    if(cylSys.mols > 0) console.log(cycle);
+    //if(cylSys.mols > 0) console.log(cycle);
     data.record();
   }
+  //All data is recorded, just need to push into chart
+  /*
   const datasets = data.sets();
   for(let i = 0; i < datasets.length; i++) {
     const hue = i * 50;
     datasets[i].backgroundColor = `hsl(${hue}, 50%, 50%)`;
     datasets[i].borderColor = `hsl(${hue}, 80%, 50%)`;
   }
-  chart.data = {
-    labels: labels,
-    datasets: datasets
-  }
-  chart.plugins = [{
-    id: 'background-colour',
-    beforeDraw: (chart) => {
-      const ctx = chart.ctx;
-      ctx.save();
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0, 0, chart.width, chart.height);
-      ctx.restore();
+  */
+  for(const key of Object.keys(charts)){
+    console.dir(charts[key])
+    charts[key].data = {
+      labels: labels,
+      datasets: data[key].set()
     }
-  }]
-  chart.options = chartConfig;
-  chart.update();
+    charts[key].plugins = [{
+      id: 'background-colour',
+      beforeDraw: (chart) => {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      }
+    }]
+    charts[key].update();
+  }
 }
 runExperiment();
