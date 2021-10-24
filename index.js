@@ -132,23 +132,29 @@ function runExperiment() {
     }
     set() {
       const datasets = [];
-      const hue = 0;
+      let hue = 0;
       switch(this.label) {
         case 'Mols':
+          hue = 230;
+          break;
         case 'Temperature':
+          hue = 0;
+          break;
         case 'Pressure':
+          hue = 135;
+          break;
       }
       datasets.push({
         label: this.label + " In",
         data: this.in,
-        backgroundColor: `hsl(0, 50%, 50%)`,
-        borderColor: `hsl(0, 80%, 50%)`
+        backgroundColor: `hsl(${hue}, 100%, 60%)`,
+        borderColor: `hsl(${hue}, 100%, 60%)`
       });
       datasets.push({
         label: this.label + " Out",
         data: this.out,
-        backgroundColor: `hsl(180, 50%, 50%)`,
-        borderColor: `hsl(180, 80%, 50%)`
+        backgroundColor: `hsl(${hue + 5}, 100%, 30%)`,
+        borderColor: `hsl(${hue + 5}, 100%, 30%)`
       });
       return datasets;
     }
