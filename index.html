@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <title>Stupid Compressor</title>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+  <div id='control-panel'>
+    <div class='cfg' id='in-sys-cfg'>
+      <h3>Input System</h3>
+      <label for="in-vol">Volume</label>
+      <input id='in-vol' type="number" value='100'>
+      <label for="in-mols">Mols</label>
+      <input id='in-mols' type="number" value='100'>
+      <label for='in-temp'>Temp</label>
+      <input id='in-temp' type='number' value='300'>
+    </div>
+    <div class='cfg' id="comp-cfg">
+      <h3>Compressor</h3>
+      <label for="cyl-vol">Volume</label>
+      <input id='cyl-vol' type="number" value='2'>
+    </div>
+    <div class='cfg' id='out-sys-cfg'>
+      <h3>Output System</h3>
+      <label for="out-vol">Volume</label>
+      <input id='out-vol' type="number" value='100'>
+      <label for="out-mols">Mols</label>
+      <input id='out-mols' type="number" value='100'>
+      <label for='out-temp'>Temp</label>
+      <input id='out-temp' type='number' value='300'>
+    </div>
+  </div>
+  <div id="chart-container">
+    <div id="title-button">
+      <h1>Values over Time</h1>
+      <button onclick='runExperiment()'>RUN THE EXPERIMENT</button>
+    </div>
+    <canvas id="mols-chart"></canvas>
+    <canvas id="pressure-chart"></canvas> 
+    <canvas id="temp-chart"></canvas>
+    <script src='/index.js'></script>
+  </div>
+</body>
+
+</html>

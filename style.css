@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  overflow-x:hidden;
+  background-color:lightslategray;
+}
+#chart-container {
+  padding: 1em;
+  width:80vw;
+  margin:auto;
+  background-color:lightsteelblue;
+}
+.cfg {
+  text-align: center;
+  outline: black;
+  outline-width: 1px;
+}
+.cfg input {
+  width: 9ch;
+}
+#control-panel {
+  display:flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100vw;
+  margin-bottom:2em;
+}
+#title-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+#chart {
+  background: white;
+  margin-top: 1em;
+}
