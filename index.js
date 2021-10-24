@@ -132,44 +132,33 @@ function runExperiment() {
     labels[i] = i;
   }
   class DataItem {
-    constructor(label){
+    constructor(label, hue){
       this.label = label;
       this.in = [];
       this.out = [];
+      this.hue = hue || 0;
     }
     set() {
       const datasets = [];
-      let hue = 0;
-      switch(this.label) {
-        case 'Mols':
-          hue = 230;
-          break;
-        case 'Temperature':
-          hue = 0;
-          break;
-        case 'Pressure':
-          hue = 135;
-          break;
-      }
       datasets.push({
         label: this.label + " In",
         data: this.in,
-        backgroundColor: `hsl(${hue}, 100%, 60%)`,
-        borderColor: `hsl(${hue}, 100%, 60%)`
+        backgroundColor: `hsl(${this.hue}, 100%, 60%)`,
+        borderColor: `hsl(${this.hue}, 100%, 60%)`
       });
       datasets.push({
         label: this.label + " Out",
         data: this.out,
-        backgroundColor: `hsl(${hue + 5}, 100%, 30%)`,
-        borderColor: `hsl(${hue + 5}, 100%, 30%)`
+        backgroundColor: `hsl(${this.hue + 5}, 100%, 30%)`,
+        borderColor: `hsl(${this.hue + 5}, 100%, 30%)`
       });
       return datasets;
     }
   }
   const data = {
-    pressure: new DataItem("Pressure"),
-    mols: new DataItem('Mols'),
-    temperature: new DataItem('Temperature'),
+    pressure: new DataItem("Pressure", 230),
+    mols: new DataItem('Mols', 0),
+    temperature: new DataItem('Temperature', 135),
     record(){
       this.pressure.in.push(inSys.pressure);
       this.pressure.out.push(outSys.pressure);
