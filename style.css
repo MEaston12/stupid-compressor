@@ -2,30 +2,46 @@
   box-sizing: border-box;
 }
 body {
-  overflow-x:hidden;
-  background-color:lightslategray;
+  overflow-x: hidden;
+  background-color:hsl(225, 22%, 10%);
 }
 #chart-container {
   padding: 1em;
-  width:80vw;
-  margin:auto;
-  background-color:lightsteelblue;
+  width: 80vw;
+  margin: auto;
+  background-color:hsl(225, 20%, 20%);
 }
 .cfg {
   text-align: center;
   outline: black;
   outline-width: 1px;
+  color: white;
 }
 .cfg input {
-  width: 9ch;
+  width: 7ch;
+  height: 1.5em;
+  padding: .25em;
+  margin: 0em;
+}
+.cfg label {
+  margin: 0em;
+  padding: 0em;
+  padding-left:.25em;
+}
+.cfg h3 {
+  margin-top: 0;
+  margin-bottom: .25em;
 }
 #control-panel {
   display:flex;
+  padding: .5em;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  width: 100vw;
-  margin-bottom:2em;
+  border-style: solid;
+  border-color: white;
+  border-radius: 1em;
+  border-width: thin;
 }
 #title-button {
   display: flex;
